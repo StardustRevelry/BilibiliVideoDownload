@@ -31,7 +31,7 @@
           </a-radio-group>
         </div>
       </div>
-      <div v-if="videoInfo.page && videoInfo.page.length > 1" class="fr ac jsb mt16">
+      <div v-if="videoInfo.list && videoInfo.list.length > 1" class="fr ac jsb mt16">
         <div>这是一个多P视频，请选择</div>
         <div>
           <a-checkbox @change="onAllSelectedChange">
@@ -39,8 +39,8 @@
           </a-checkbox>
         </div>
       </div>
-      <div v-if="videoInfo.page && videoInfo.page.length > 1" class="fr ac warp mt16">
-        <div v-for="(item, index) in videoInfo.page" :key="index" :class="['video-item', selected.includes(item.page) ? 'active' : '']" @click="toggle(item.page)">
+      <div v-if="videoInfo.list && videoInfo.list.length > 1" class="fr ac warp mt16">
+        <div v-for="(item, index) in videoInfo.list" :key="index" :class="['video-item', selected.includes(item.index) ? 'active' : '']" @click="toggle(item.index)">
           <a-tooltip>
             <template #title>
               {{ item.title }}
@@ -109,8 +109,8 @@ const open = (data: VideoData) => {
   videoInfo.value = data
   visible.value = true
   // 如果是单p，则默认选中
-  if (videoInfo.value.page.length === 1) {
-    selected.value.push(videoInfo.value.page[0].page)
+  if (videoInfo.value.list.length === 1) {
+    selected.value.push(videoInfo.value.list[0].page)
   }
 }
 
@@ -118,7 +118,7 @@ const onAllSelectedChange = (e: any) => {
   allSelected.value = e.target.checked
   selected.value = []
   if (e.target.checked) {
-    videoInfo.value.page.forEach((element: any) => {
+    videoInfo.value.list.forEach((element: any) => {
       selected.value.push(element.page)
     })
   }

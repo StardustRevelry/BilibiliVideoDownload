@@ -39,12 +39,13 @@ export interface QualityItem {
   value: number
 }
 
-export interface Page {
+export interface ListItem {
   title: string,
   url: string,
   bvid: string,
   cid: number,
   duration: string,
+  index: number,
   page: number
 }
 
@@ -85,7 +86,8 @@ export interface VideoData {
   duration: string,
   up: UP[],
   qualityOptions: QualityItem[],
-  page: Page[],
+  list: ListItem[],
+  listType: number,
   subtitle: Subtitle[],
   video: Video[],
   audio: Audio[],

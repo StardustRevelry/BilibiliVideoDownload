@@ -75,6 +75,7 @@ const download = async () => {
   // 解析html
   try {
     const videoInfo = await parseHtml(body, videoType, url)
+    console.log(videoInfo)
     loading.value = false
     videoModal.value.open(videoInfo)
   } catch (error: any) {

@@ -44,6 +44,7 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
   const fileName = videoInfo.filePathList[0].substring(0, videoInfo.filePathList[0].length - 4)
   if (setting.isFolder) {
     // 创建文件夹
+    log.info('创建文件夹...')
     try {
       fs.mkdirSync(`${videoInfo.fileDir}`)
       log.info(`文件夹创建成功：${videoInfo.fileDir}`)
@@ -52,6 +53,7 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
     }
   }
   // 下载封面
+  log.info('下载封面...')
   if (setting.isCover) {
     await pipeline(
       got.stream(videoInfo.cover, imageConfig)
@@ -62,14 +64,17 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
     )
   }
   // 下载字幕
+  log.info('下载字幕...')
   if (setting.isSubtitle) {
     downloadSubtitle(fileName, videoInfo.subtitle)
   }
   // 下载弹幕
+  log.info('下载弹幕...')
   if (setting.isDanmaku) {
     event.reply('download-danmuku', videoInfo.cid, videoInfo.title, `${fileName}.ass`)
   }
   // 下载视频
+  log.info('下载视频...')
   await pipeline(
     got.stream(videoInfo.downloadUrl.video, downloadConfig)
       .on('downloadProgress', (progress: any) => {
@@ -104,6 +109,7 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
   )
   await sleep(500)
   // 下载音频
+  log.info('下载音频...')
   await pipeline(
     got.stream(videoInfo.downloadUrl.audio, downloadConfig)
       .on('downloadProgress', (progress: any) => {
@@ -138,6 +144,7 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
   )
   await sleep(500)
   // 合成视频
+  log.info('合成视频...')
   if (setting.isMerge) {
     event.reply('download-video-status', {
       id: videoInfo.id,
