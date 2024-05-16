@@ -53,7 +53,7 @@ const activeTab = ref<number>(1)
 const QRSESSDATA = ref<string>('')
 const IPTSESSDATA = ref<string>('')
 const imageBase64 = ref<string>('')
-const oauthKey = ref<string>('')
+const qrcodeKey = ref<string>('')
 const countDown = ref<number>(180)
 const isCheck = ref<boolean>(true)
 let timer: any = null
@@ -72,7 +72,7 @@ const open = async () => {
   await createQrcode()
   visible.value = true
   isCheck.value = true
-  checkScanStatus(oauthKey.value)
+  checkScanStatus(qrcodeKey.value)
 }
 
 const notLogin = () => {
@@ -112,14 +112,14 @@ const openBrowser = (url: string):void => {
 }
 
 const createQrcode = async () => {
-  const { body } = await window.electron.got('http://passport.bilibili.com/qrcode/getLoginUrl', { responseType: 'json' })
+  const { body } = await window.electron.got('https://passport.bilibili.com/x/passport-login/web/qrcode/generate', { responseType: 'json' })
   const qrcode = await qrCode.toDataURL(body.data.url, {
     margin: 0,
     errorCorrectionLevel: 'H',
     width: 400
   })
   imageBase64.value = qrcode
-  oauthKey.value = body.data.oauthKey
+  qrcodeKey.value = body.data.qrcode_key
   // 开始倒计时
   countDown.value = 180
   if (timer) {
@@ -135,35 +135,39 @@ const createQrcode = async () => {
   }, 1000)
 }
 
-const checkScanStatus = (oauthKey: string) => {
-  run(oauthKey)
-  async function run (oauthKey: string) {
+const checkScanStatus = (qrcodeKey: string) => {
+  run(qrcodeKey)
+  async function run (qrcodeKey: string) {
     if (!isCheck.value) return
-    const { body } = await window.electron.got('http://passport.bilibili.com/qrcode/getLoginInfo', {
-      method: 'POST',
-      responseType: 'json',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      form: { oauthKey }
+    const { body } = await window.electron.got(`https://passport.bilibili.com/x/passport-login/web/qrcode/poll?qrcode_key=${qrcodeKey}`, {
+      method: 'GET',
+      responseType: 'json'
     })
     console.log(body)
-    if (!body.status) {
-      if (body.data === -4) {
-        scanStatus.value = 0
-      }
-      if (body.data === -5) {
-        scanStatus.value = 1
-      }
+    if (body.data.code) {
+      console.log('status: ', body.data.code)
       setTimeout(() => {
-        run(oauthKey)
+        run(qrcodeKey)
       }, 3000)
-      return
     }
-    // 获取SESSDATA
-    QRSESSDATA.value = body.data.url.match(/SESSDATA=(\S*)&bili_jct/)[1]
-    scanStatus.value = 2
-    isCheck.value = false
+    switch (body.data.code) {
+      case 86038: // 已过期
+      case 86101: // 未扫码
+        scanStatus.value = 0
+        return
+      case 86090: // 已扫码
+        scanStatus.value = 1
+        return
+      case 0: // 已确认
+        // 获取SESSDATA
+        QRSESSDATA.value = body.data.url.match(/SESSDATA=(\S*)&bili_jct/)[1]
+        scanStatus.value = 2
+        isCheck.value = false
+        return
+      default:
+        scanStatus.value = 0
+        isCheck.value = false
+    }
   }
 }
 
