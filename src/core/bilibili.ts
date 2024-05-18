@@ -42,6 +42,7 @@ const getDownloadList = async (videoInfo: VideoData, selected: number[], quality
       ...videoInfo,
       id: taskId,
       title: currentPageData.title,
+      cover: currentPageData.cover || videoInfo.cover,
       url: currentPageData.url,
       quality: quality,
       duration: currentPageData.duration,
@@ -489,6 +490,7 @@ const parseListData = (playList: any[], url: string): ListItem[] => {
       // console.log('item', item)
       results.push({
         title: item.title,
+        cover: item.cover,
         index: idx++,
         page: 1,
         duration: formatSeconed(item.duration),

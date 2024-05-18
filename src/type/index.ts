@@ -41,6 +41,7 @@ export interface QualityItem {
 
 export interface ListItem {
   title: string,
+  cover?: string,
   url: string,
   bvid: string,
   cid: number,
