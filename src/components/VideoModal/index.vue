@@ -119,7 +119,7 @@ const onAllSelectedChange = (e: any) => {
   selected.value = []
   if (e.target.checked) {
     videoInfo.value.list.forEach((element: any) => {
-      selected.value.push(element.page)
+      selected.value.push(element.index)
     })
   }
 }
