@@ -63,6 +63,11 @@ yarn electron:build
 ```
 ## 版本
 
+v3.4.0 `2024-05-18`
+
+1. 修复无法使用二维码登录的问题
+2. 添加下载播放列表的功能
+
 v3.3.3 `2022-07-02`
 
 1. 修复关闭软件事件不正常错误[issues/88](https://github.com/blogwy/BilibiliVideoDownload/issues/88)
