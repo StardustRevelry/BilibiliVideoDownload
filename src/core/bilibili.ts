@@ -1,10 +1,10 @@
 import UA from '../assets/data/ua'
-import { formatSeconed, filterTitle, sleep } from '../utils'
-import { qualityMap } from '../assets/data/quality'
+import { formatSeconed, filterTitle, sleep } from '@/utils'
+import { qualityMap } from '@/assets/data/quality'
 import { customAlphabet } from 'nanoid'
 import alphabet from '../assets/data/alphabet'
 import { VideoData, ListItem, DownloadUrl, Subtitle, TaskData, Audio, SettingData, FilePaths } from '../type'
-import { store, pinia } from '../store'
+import { store, pinia } from '@/store'
 
 // 自定义uuid
 const nanoid = customAlphabet(alphabet, 16)
@@ -342,7 +342,7 @@ const parseList = async (html: string, url: string) => {
       subtitle: [],
       video: acceptQuality.video ? acceptQuality.video.map((item: any) => ({ id: item.id, cid: videoData.cid, url: item.baseUrl })) : [],
       audio: acceptQuality.audio ? acceptQuality.audio.map((item: any) => ({ id: item.id, cid: videoData.cid, url: item.baseUrl })) : [],
-      filePathList: [],
+      filePaths: { target: '' },
       fileDir: '',
       size: -1,
       downloadUrl: { video: '', audio: '' }
@@ -428,13 +428,13 @@ const handleFilePathList = (page: number, title: string, up: string, bvid: strin
   const name = `${!page ? '' : `[P${page}]`}${filterTitle(`${title}-${up}-${bvid}-${id}`)}`
   const isFolder = settings.isFolder
   const prefix = `${downloadPath}/${isFolder ? `${name}/` : ''}${name}`
-  const taget = `${prefix}.${isAudioOnly ? 'mp3' : 'mp4'}`
+  const target = `${prefix}.${isAudioOnly ? 'mp3' : 'mp4'}`
   const cover = `${prefix}${name}.png`
   const audioSource = `${prefix}-audio.m4s`
   const videoSource = isAudioOnly ? '' : `${prefix}-video.m4s`
   const parentPath = isFolder ? `${downloadPath}/${name}/` : ''
   return {
-    taget,
+    target,
     cover,
     audioSource,
     videoSource,

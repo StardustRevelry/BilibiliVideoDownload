@@ -21,7 +21,7 @@ export const videoData: VideoData = {
   video: [],
   audio: [],
   filePaths: {
-    taget: ''
+    target: ''
   },
   fileDir: '',
   size: -1,

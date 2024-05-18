@@ -44,7 +44,7 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
     }
   }
   // 去掉扩展名的文件路径
-  const fileName = videoInfo.filePaths.target.substring(0, videoInfo.filePaths.taget.length - 4)
+  const fileName = videoInfo.filePaths.target.substring(0, videoInfo.filePaths.target.length - 4)
   if (setting.isFolder) {
     // 创建文件夹
     log.info('创建文件夹...')
@@ -78,7 +78,7 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
   }
   if (!setting.isAudioOnly && videoInfo.filePaths.videoSource) {
     // 下载视频
-  log.info('下载视频...')
+    log.info('下载视频...')
     await pipeline(
       got.stream(videoInfo.downloadUrl.video, downloadConfig)
         .on('downloadProgress', (progress: any) => {
@@ -115,7 +115,7 @@ export default async (videoInfo: TaskData, event: IpcMainEvent, setting: Setting
   }
   if (videoInfo.filePaths.audioSource) {
     // 下载音频
-  log.info('下载音频...')
+    log.info('下载音频...')
     await pipeline(
       got.stream(videoInfo.downloadUrl.audio, downloadConfig)
         .on('downloadProgress', (progress: any) => {

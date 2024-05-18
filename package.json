@@ -3,7 +3,10 @@
   "version": "3.4.0",
   "private": true,
   "author": "wangyu <wangyu@wangyu.link>",
-  "contributors": ["wangyu <wangyu@wangyu.link>", "StardustRevelry <StardustRevelry@github.com>"],
+  "contributors": [
+    "wangyu <wangyu@wangyu.link>",
+    "StardustRevelry <StardustRevelry@github.com>"
+  ],
   "description": "欢迎使用BilibiliVideoDownload",
   "homepage": "https://github.com/StardustRevelry/BilibiliVideoDownload",
   "scripts": {
@@ -37,6 +40,8 @@
   },
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.2.0",
+    "@types/ffmpeg-static": "^3.0.3",
+    "@types/fluent-ffmpeg": "^2.1.24",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-eslint": "~5.0.0",

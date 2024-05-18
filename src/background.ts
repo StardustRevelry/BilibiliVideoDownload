@@ -204,7 +204,7 @@ ipcMain.handle('get-video-size', (event, id: string) => {
   const task = store.get(`taskList.${id}`) as TaskData
   if (task && task.filePaths) {
     try {
-      const stat = fs.statSync(task.filePaths.taget)
+      const stat = fs.statSync(task.filePaths.target)
       return Promise.resolve(stat.size)
     } catch (error: any) {
       log.error(`get-video-size error: ${error.message}`)

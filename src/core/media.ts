@@ -1,5 +1,5 @@
+import ffmpeg from 'fluent-ffmpeg'
 const ffmpegPath = require('ffmpeg-static')
-const ffmpeg = require('fluent-ffmpeg')
 const log = require('electron-log')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -12,20 +12,23 @@ if (isDevelopment) {
 
 export const mergeVideoAudio = (videoPath?: string, audioPath?: string, out?: string) => {
   if (!out) {
-    throw new Error(`Output should not be empty`)
+    throw new Error('Output should not be empty')
   }
   if (!videoPath && !audioPath) {
-    throw new Error(`Neither videoPath nor audioPath exist`)
+    throw new Error('Neither videoPath nor audioPath exist')
   }
+  // console.log(videoPath, audioPath, out)
   return new Promise((resolve, reject) => {
-    let ffmpegOp = ffmpeg();
+    const ffmpegOp = ffmpeg()
     if (videoPath) {
+      log.info(`input video: ${videoPath}`)
       ffmpegOp
         .input(videoPath)
         .videoCodec('copy')
     }
 
     if (audioPath) {
+      log.info(`input audio ${audioPath}`)
       ffmpegOp.input(audioPath)
       if (videoPath) {
         ffmpegOp.audioCodec('copy')
@@ -39,6 +42,7 @@ export const mergeVideoAudio = (videoPath?: string, audioPath?: string, out?: st
         resolve('end')
       })
       .on('error', (err: any) => {
+        log.error(`合成失败：${err.message}`)
         reject(err)
       })
       .save(out)

@@ -129,7 +129,7 @@ const showContextmenu = async () => {
 
 const playVideo = () => {
   if (rightTask.value.status === 0) {
-    window.electron.openPath(rightTask.value.filePaths.taget)
+    window.electron.openPath(rightTask.value.filePaths.target)
   }
 }
 

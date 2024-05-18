@@ -75,7 +75,7 @@ export interface DownloadUrl {
 }
 
 export interface FilePaths {
-  taget: string,
+  target: string,
   cover?: string,
   audioSource?: string,
   videoSource?: string,
