@@ -20,7 +20,9 @@ export const videoData: VideoData = {
   subtitle: [],
   video: [],
   audio: [],
-  filePathList: [],
+  filePaths: {
+    taget: ''
+  },
   fileDir: '',
   size: -1,
   downloadUrl: {
@@ -33,6 +35,7 @@ export const settingData: SettingData = {
   downloadPath: '',
   SESSDATA: '',
   isMerge: true,
+  isAudioOnly: false,
   isDelete: true,
   bfeId: '',
   isSubtitle: true,
